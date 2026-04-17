@@ -2,12 +2,8 @@ import * as React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Slider from "@mui/material/Slider"
-import { getFirestore, collection, addDoc } from "firebase/firestore"
 
 const units = ["/Rating/1.png", "/Rating/2.png", "/Rating/3.png", "/Rating/4.png", "/Rating/5.png"]
-
-// Inisialisasi Firestore
-const db = getFirestore()
 
 export default function Rating() {
     const [value, setValue] = React.useState(() => {
@@ -30,19 +26,13 @@ export default function Rating() {
         }
     }
 
-    const handleSliderChange = async (event, newValue) => {
+    const handleSliderChange = (event, newValue) => {
         if (typeof newValue === "number" && remainingRatings > 0 && !isSubmitting) {
             setIsSubmitting(true)
             setValue(newValue)
 
-            try {
-                const docRef = await addDoc(collection(db, "ratings"), {
-                    value: newValue,
-                    timestamp: new Date(),
-                })
-                console.log("Document written with ID: ", docRef.id)
-
-                // Mengurangi sisa rating yang tersisa
+            // Simulasi proses loading sebentar
+            setTimeout(() => {
                 const newRemainingRatings = remainingRatings - 1
                 setRemainingRatings(newRemainingRatings)
 
@@ -50,11 +40,9 @@ export default function Rating() {
                 localStorage.setItem("lastRating", newValue.toString())
                 // Simpan informasi jumlah rating yang tersisa ke localStorage
                 localStorage.setItem("remainingRatings", newRemainingRatings.toString())
-            } catch (e) {
-                console.error("Error adding document: ", e)
-            } finally {
+                
                 setIsSubmitting(false)
-            }
+            }, 500)
         }
     }
 
