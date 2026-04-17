@@ -11,7 +11,12 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [userIp, setUserIp] = useState("");
   const [replyTo, setReplyTo] = useState(null); 
-  const [isAdmin, setIsAdmin] = useState(false);
+  
+  // MENGAMBIL STATUS ADMIN DARI LOCAL STORAGE
+  const [isAdmin, setIsAdmin] = useState(() => {
+    return localStorage.getItem("adminChatMode") === "true";
+  });
+  
   const [clickCount, setClickCount] = useState(0);
   const messagesEndRef = useRef(null);
 
@@ -19,7 +24,6 @@ function Chat() {
   useEffect(() => {
     fetchMessages();
 
-    // Menggunakan nama channel unik (Date.now) agar tidak bentrok saat React me-load ulang (Strict Mode)
     const channelName = 'chat-room-' + Date.now();
     const channel = supabase
       .channel(channelName)
@@ -63,7 +67,23 @@ function Chat() {
   };
 
   const handleAdminTrigger = async () => {
-    if (isAdmin) return;
+    if (isAdmin) {
+        // Fitur tambahan: Bisa Logout dari Mode Admin
+        Swal.fire({
+            title: "Keluar Mode Admin?",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Keluar",
+            background: "#18181b",
+            color: "white"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setIsAdmin(false);
+                localStorage.removeItem("adminChatMode");
+            }
+        });
+        return;
+    }
+    
     const newCount = clickCount + 1;
     setClickCount(newCount);
     if (newCount >= 5) {
@@ -76,6 +96,8 @@ function Chat() {
       });
       if (password === "exone123") {
         setIsAdmin(true);
+        // SIMPAN STATUS ADMIN SECARA PERMANEN DI BROWSER
+        localStorage.setItem("adminChatMode", "true");
         Swal.fire({ icon: "success", title: "Admin Mode Aktif!", background: "#18181b", color: "white", timer: 1500 });
       }
     }
@@ -84,7 +106,6 @@ function Chat() {
   const sendMessage = async () => {
     if (message.trim() === "") return;
 
-    // Filter Kata Kasar
     const lowerMsg = message.toLowerCase();
     if (BLACKLISTED_WORDS.some(word => lowerMsg.includes(word.toLowerCase())) && !isAdmin) {
       Swal.fire({ icon: "warning", title: "Kata dilarang!", background: "#18181b", color: "white" });
@@ -93,7 +114,6 @@ function Chat() {
 
     const senderImageURL = isAdmin ? "https://cdn-icons-png.flaticon.com/512/5138/5138230.png" : "/AnonimUser.png";
 
-    // FIX: Typo pada reply_to_image sudah diperbaiki di sini
     const { error } = await supabase.from('chats').insert([
       { 
         message: message.substring(0, 60), 
@@ -133,7 +153,7 @@ function Chat() {
                 <span className={msg.is_admin_message ? "text-blue-300 font-bold" : "text-gray-200"}>
                   {msg.message}
                 </span>
-                {/* INI BAGIAN YANG DIUBAH: Tombol Reply langsung kelihatan saat mode Admin */}
+                {/* Tombol Reply langsung kelihatan saat mode Admin */}
                 {isAdmin && (
                   <button onClick={() => setReplyTo(msg)} className="text-xs text-blue-400 font-semibold hover:text-blue-300 ml-2 transition-colors">Reply</button>
                 )}
