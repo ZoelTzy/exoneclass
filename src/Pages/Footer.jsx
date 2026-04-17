@@ -36,7 +36,7 @@ const Footer = () => {
 							<ul class="text-gray-400 dark:text-gray-400 font-medium">
 								<li class="mb-2">
 									<a href="https://www.instagram.com/binnfa_/?hl=id" class="hover:underline">
-										Nandoo
+										Fadil
 									</a>
 								</li>
 							</ul>
