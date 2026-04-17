@@ -2,7 +2,7 @@
 const BoxSpotify = () => {
 	return (
 		<div id="BoxSpotify">
-			<a href="https://open.spotify.com/playlist/3kDzlhbs5raqhrjRlPQTyK?si=adAYLL0ET1yvoOIeXStbDg ">
+			<a href="https://open.spotify.com/playlist/6hrrJA4G3MJLGjqWTf6Jno?si=227fb534c0da4776">
 				<div className="flex justify-between">
 					<img src="/spotify.png" alt="" className="w-auto h-6" />
 					<img src="/next.png" alt="" className="h-3 w-3" />
