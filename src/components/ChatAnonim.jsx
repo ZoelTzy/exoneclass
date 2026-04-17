@@ -121,7 +121,7 @@ function Chat() {
 
       <div className="h-[300px] overflow-y-auto pr-2" id="KotakPesan">
         {messages.map((msg, index) => (
-          <div key={index} className={`flex items-start py-2 border-b border-white/5 ${msg.is_admin_message ? 'bg-blue-900/10 rounded-lg px-2' : ''}`}>
+          <div key={index} className={`group flex items-start py-2 border-b border-white/5 ${msg.is_admin_message ? 'bg-blue-900/10 rounded-lg px-2' : ''}`}>
             <img src={msg.sender_image} className={`h-8 w-8 mr-3 rounded-full flex-shrink-0 bg-gray-600 ${msg.is_admin_message ? 'border border-blue-400 p-0.5' : ''}`} alt="" />
             <div className="flex flex-col">
               {msg.reply_to_message && (
