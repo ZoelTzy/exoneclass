@@ -133,8 +133,9 @@ function Chat() {
                 <span className={msg.is_admin_message ? "text-blue-300 font-bold" : "text-gray-200"}>
                   {msg.message}
                 </span>
+                {/* INI BAGIAN YANG DIUBAH: Tombol Reply langsung kelihatan saat mode Admin */}
                 {isAdmin && (
-                  <button onClick={() => setReplyTo(msg)} className="text-xs text-blue-400 opacity-0 group-hover:opacity-100">Reply</button>
+                  <button onClick={() => setReplyTo(msg)} className="text-xs text-blue-400 font-semibold hover:text-blue-300 ml-2 transition-colors">Reply</button>
                 )}
               </div>
             </div>
