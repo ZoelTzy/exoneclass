@@ -15,7 +15,10 @@ const Footer = () => {
 							<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
 						</a>
 					</div>
-					<div class="grid grid-cols-2 sm:grid-cols-3">
+					
+					{/* INI YANG DIUBAH: Ditambahin gap-y-8 (buat jarak atas-bawah) dan gap-x-4 (buat jarak kanan-kiri) */}
+					<div class="grid grid-cols-2 sm:grid-cols-3 gap-y-8 gap-x-4">
+						
 						<div className=" ">
 							<h2 class="mb-4 text-sm font-semibold uppercase text-white">CREATED BY</h2>
 							<ul class="text-gray-400 dark:text-gray-400 font-medium">
@@ -56,7 +59,8 @@ const Footer = () => {
 						</div>
 					</div>
 
-					<div className="flex items-center justify-center mt-8  md:hidden">
+					{/* Note: Spasi aneh sebelum md:hidden udah aku benerin sekalian ya */}
+					<div className="flex items-center justify-center mt-8 md:hidden">
 						{/* RATING */}
 						<Rating />
 					</div>
@@ -65,7 +69,7 @@ const Footer = () => {
 				<div class="sm:flex sm:items-center sm:justify-between">
 					<div class="flex mt-4 justify-center sm:mt-0">
 						<p className="text-[0.7rem] text-white opacity-70">
-							© {new Date().getFullYear()} Kelas IX - F | Di Kelola Oleh Siswa X - 1
+							© {new Date().getFullYear()} Kelas X - 1 | Di Kelola Oleh Siswa X - 1
 						</p>
 					</div>
 				</div>
