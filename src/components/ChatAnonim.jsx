@@ -103,9 +103,10 @@ function Chat() {
     }
   };
 
-  const sendMessage = async () => {
+const sendMessage = async () => {
     if (message.trim() === "") return;
 
+    // Filter Kata Kasar
     const lowerMsg = message.toLowerCase();
     if (BLACKLISTED_WORDS.some(word => lowerMsg.includes(word.toLowerCase())) && !isAdmin) {
       Swal.fire({ icon: "warning", title: "Kata dilarang!", background: "#18181b", color: "white" });
@@ -128,11 +129,13 @@ function Chat() {
     if (error) {
       Swal.fire({ icon: "error", title: "Gagal Kirim", text: error.message });
     } else {
-      setMessage("");
-      setReplyTo(null);
+      // --- INI KUNCI PERBAIKANNYA ---
+      setMessage(""); // 1. Paksa kosongkan kotak ketikan seketika
+      setReplyTo(null); // 2. Hilangkan status "Replying"
+      fetchMessages(); // 3. Paksa tarik pesan terbaru dari database tanpa nunggu Realtime!
     }
   };
-
+  
   return (
     <div id="ChatAnonim">
       <div className="text-center text-3xl font-semibold mb-4 cursor-pointer select-none" onClick={handleAdminTrigger}>
