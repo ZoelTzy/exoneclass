@@ -15,19 +15,22 @@ function Chat() {
   const [clickCount, setClickCount] = useState(0);
   const messagesEndRef = useRef(null);
 
-  // Load & Realtime Chat dari Supabase
+// Load & Realtime Chat dari Supabase
   useEffect(() => {
     fetchMessages();
 
-    // Fitur Realtime: Langsung update kalau ada pesan baru
+    // Menggunakan nama channel unik (Date.now) agar tidak bentrok saat React me-load ulang (Strict Mode)
+    const channelName = 'chat-room-' + Date.now();
     const channel = supabase
-      .channel('schema-db-changes')
+      .channel(channelName)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chats' }, (payload) => {
         setMessages((prev) => [...prev, payload.new]);
       })
       .subscribe();
 
-    return () => supabase.removeChannel(channel);
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchMessages = async () => {
